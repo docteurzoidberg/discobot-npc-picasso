@@ -1,0 +1,36 @@
+{
+  "name": "npc-picasso",
+  "version": "1.0.0",
+  "description": "Discord bot to play with dalle api",
+  "main": "index.js",
+  "scripts": {
+    "clean": "rm -rf ./dist",
+    "build": "tsc -p .",
+    "start": "node ./dist/index.js",
+    "register": "node ./dist/register.js",
+    "deletecommands": "node ./dist/deletecommands.js",
+    "testdalle": "node ./dist/testdalle.js"
+  },
+  "author": "DrZoid",
+  "license": "DBAD",
+  "dependencies": {
+    "@discordjs/rest": "^1.6.0",
+    "discord-api-types": "^0.37.37",
+    "discord.js": "^14.8.0",
+    "dotenv": "^16.0.3",
+    "node-fetch": "^2.6.9",
+    "openai": "^3.2.1",
+    "signale": "^1.4.0"
+  },
+  "devDependencies": {
+    "@types/node": "^18.16.3",
+    "@typescript-eslint/parser": "^5.59.2",
+    "eslint": "^8.37.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-plugin-import": "^2.27.5",
+    "prettier": "^2.8.7",
+    "ts-node": "^10.9.1",
+    "ts-node-dev": "^2.0.0",
+    "typescript": "^5.0.4"
+  }
+}
