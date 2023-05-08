@@ -24,7 +24,6 @@ const BOT_TOKEN = process.env.BOT_TOKEN || false;
 const BOT_VERSION = process.env.BOT_VERSION || false;
 const DATA_PATH = process.env.DATA_PATH || 'data';
 const API_URL = process.env.API_URL || false;
-const USE_DALLE = process.env.USE_DALLE === 'true';
 
 //test bot token is set
 if (!BOT_TOKEN) {
@@ -115,11 +114,7 @@ const app: BotApplication = {
   version: BOT_VERSION,
   dataPath: DATA_PATH,
   config: {
-    USE_DALLE: USE_DALLE,
     INVISIBLE: BOT_INVISIBLE,
-    ANNOUNCE_CHANNEL: process.env.ANNOUNCE_CHANNEL || false,
-    ANNOUNCE_UPDATES: process.env.ANNOUNCE_UPDATES === 'true',
-    ANNOUNCE_READY: process.env.ANNOUNCE_READY === 'true',
   },
 };
 
