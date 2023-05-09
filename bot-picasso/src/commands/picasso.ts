@@ -172,7 +172,7 @@ async function commandDraw(app: BotApplication, interaction) {
     //wait 3sec and delete the message
     setTimeout(() => {
       interaction.deleteReply();
-    }, 3000);
+    }, 5000);
 
     interaction.channel.send({
       content: ``,
