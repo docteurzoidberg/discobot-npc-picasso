@@ -122,6 +122,13 @@ const _generateDallePrompt = (title) => {
 
 async function commandDraw(app: BotApplication, interaction) {
   const userName = app.client.users.cache.get(interaction.user.id).username;
+
+  const userAvatar = app.client.users.cache
+    .get(interaction.user.id)
+    .avatarURL();
+
+  const botAvatar = app.client.user.avatarURL();
+
   const channelName = interaction.channel.name;
   const prompt = interaction.options.getString('prompt');
   const isPrivate = interaction.options.getBoolean('private') === true;
@@ -129,7 +136,7 @@ async function commandDraw(app: BotApplication, interaction) {
   //take long time so tell discord
   interaction.deferReply({
     content: 'Ok. je dessinne un truc, laissez moi un peu de temps...',
-    ephemeral: isPrivate,
+    ephemeral: true,
   });
 
   try {
@@ -145,8 +152,31 @@ async function commandDraw(app: BotApplication, interaction) {
     const tpptUrl = await tppt.dalle2tppt(dalleImage);
     app.logger.debug(tpptUrl);
 
+    const embed = new EmbedBuilder()
+      .setColor(0x0099ff)
+      //.setTitle(app.client.user.nickname || app.client.user.username)
+      .setDescription(`**${userName}:**\n"${prompt}"`)
+      .setThumbnail(userAvatar)
+      .setImage(tpptUrl)
+      .setTimestamp()
+      .setFooter({
+        text: `- Bob l'artiste, a la demande de ${userName}`,
+        //iconURL: botAvatar,
+      });
+
     interaction.editReply({
-      content: `**Demande**: *${prompt}*\n**Résultat**: ${tpptUrl}`,
+      content: `Ok, j'ai terminé !`,
+      ephemeral: true,
+    });
+
+    //wait 3sec and delete the message
+    setTimeout(() => {
+      interaction.deleteReply();
+    }, 3000);
+
+    interaction.channel.send({
+      content: ``,
+      embeds: [embed],
       ephemeral: isPrivate,
     });
   } catch (error) {
@@ -154,7 +184,7 @@ async function commandDraw(app: BotApplication, interaction) {
       content: `Erreur lors de la génération de l'image: ${error.message}`,
       ephemeral: true,
     });
-    app.logger.error('Erreur lors de la commande add');
+    app.logger.error('Erreur lors de la commande draw');
     app.logger.debug(error.message);
     app.logger.debug(error.stack);
   }
