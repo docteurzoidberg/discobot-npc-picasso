@@ -124,10 +124,13 @@ async function commandDraw(app: BotApplication, interaction) {
   const userName = app.client.users.cache.get(interaction.user.id).username;
   const channelName = interaction.channel.name;
   const prompt = interaction.options.getString('prompt');
-  const isPrivate = interaction.options.getBoolean('private') || false;
+  const isPrivate = interaction.options.getBoolean('private') === true;
 
   //take long time so tell discord
-  interaction.deferReply({ ephemeral: true });
+  interaction.deferReply({
+    content: 'Ok. je dessinne un truc, laissez moi un peu de temps...',
+    ephemeral: isPrivate,
+  });
 
   try {
     app.logger.info(
@@ -143,7 +146,7 @@ async function commandDraw(app: BotApplication, interaction) {
     app.logger.debug(tpptUrl);
 
     interaction.editReply({
-      content: `Demande:  \`\`\`${prompt}\`\`\`Image génerée: ${tpptUrl}`,
+      content: `**Demande**: *${prompt}*\n**Résultat**: ${tpptUrl}`,
       ephemeral: isPrivate,
     });
   } catch (error) {
