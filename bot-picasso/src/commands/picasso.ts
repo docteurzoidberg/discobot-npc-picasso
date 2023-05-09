@@ -143,8 +143,8 @@ async function commandDraw(app: BotApplication, interaction) {
     app.logger.debug(tpptUrl);
 
     interaction.editReply({
-      content: `Image génerée: ${tpptUrl}`,
-      ephemeral: true,
+      content: `Demande:  \`\`\`${prompt}\`\`\`Image génerée: ${tpptUrl}`,
+      ephemeral: isPrivate,
     });
   } catch (error) {
     interaction.editReply({
