@@ -6,13 +6,13 @@ ENV EDITOR nano
 
 WORKDIR /app
 
+RUN npm install typescript -g
+
 #cache dev npm install
 COPY package.json package-lock.json tsconfig.json ./
-RUN npm ci \
-&& npm install typescript -g
+RUN npm ci
 
 COPY src ./src
-
 RUN npm run build
 
 #STEP: build node production runner from compiled typescript project (dist/)
@@ -30,18 +30,11 @@ ENV EDITOR nano
 
 WORKDIR /app
 
-#cache dev prod install
 COPY package*json .
 RUN npm ci --omit=dev
 
-
 #STEP: botinstance
 FROM botrunner AS register
-
-#copy npm stuff
-#COPY --from=botrunner /app/node_modules .
-#COPY --from=botrunner /app/package*.json .
-#copy compiled typescript
 
 WORKDIR /app
 COPY --from=tsbuilder /app/dist ./dist
@@ -57,9 +50,6 @@ RUN mkdir /data
 
 # APP dir
 WORKDIR /app
-#COPY --from=register /app/node_modules .
-#COPY --from=register /app/package*.json .
-#COPY --from=tsbuilder /app/dist .
 
 # RUN
 CMD ["dumb-init", "npm", "start"]
