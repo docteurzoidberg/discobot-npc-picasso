@@ -1,7 +1,9 @@
 node_modules
 db/sqlite.db
 data
+!data/.gitkeep
 .env
 .env.*
+!.env.sample
 dist/
 tsconfig.tsbuildinfo

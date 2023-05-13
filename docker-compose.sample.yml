@@ -1,0 +1,27 @@
+version: "3"
+networks:
+  npc-picasso:
+
+services:
+  bot:
+    image: npc-picasso-bot
+    hostname: npc-picasso-bot
+    container_name: npc-picasso-bot
+    tty: true
+    build:
+      context: ./bot-picasso
+      args:
+        - BOT_TOKEN=
+        - DISCORD_CLIENT_ID=
+        - DISCORD_GUILD_ID=
+    env_file:
+      - ./bot-picasso/.env.dev
+    environment:
+      #overide api url in env file to use the docker container
+      - DATA_PATH=/data
+      - API_URL=http://npc-picasso-api:5000
+    networks:
+      - npc-picasso
+    volumes:
+      - ./bot-picasso/data:/data
+    restart: unless-stopped
